@@ -1,7 +1,6 @@
 # Retail Store Movie Business
 - **Industry:** Rental & Subscription Retail
-- **Product Demand** and **Inventory Optimization** using Customer & Store Insights, "Which of the Top 3 categories Driving 57% of Revenue".
-
+- "Which of the Top 3 categories Driving 57% of Revenue", **Product Demand** and **Inventory Optimization** using Customer & Store Insights.
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/c8759eac-a1d2-4239-afee-1dc7f47237b2" />
 
 ---
