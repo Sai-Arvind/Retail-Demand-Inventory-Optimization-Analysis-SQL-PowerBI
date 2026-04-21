@@ -2,7 +2,7 @@
 
 - **Industry:** Rental & Subscription Retail (Netflix DVD Era Simulation)
 
-- **Demand** & **Inventory Optimization** using Customer, Product & Store Insight
+- Demand, Inventory & Customer Intelligence via Product & Store insights
 - Demand is widely distributed across categories, with the top category contributing only ~7% and even the top 5 categories accounting for just ~35% of total demand, indicating no strong category dominance.
 
 
@@ -14,32 +14,41 @@
 
 ### ⚡ Executive Summary
 
-1. This project simulates a 2005-era DVD rental business (Netflix / Rent-the-Runway style model) where
- - Physical Inventory
- - Customer Loyalty
- - Return Behavior directly impact revenue and availability.
+This project simulates a **2005-era DVD Netflix rental business**, where:
+
+📦 Inventory availability
+👥 Customer behavior
+⏳ Return patterns
+
+directly influence **revenue, utilization, and operational efficiency**.
 
 
 ---
 
 ### 🚩 Business Problem
-Key challenges:
 
-- Inventory Mismatch: Why does the store with more stock generate less revenue?
-- Loyalty Gaps: Who are the 'Elite' users driving the most value?
-- Revenue Leakage: How many potential rentals are lost due to late returns?
-- Genre Concentration: Is the business too reliant on specific niches like Sports and Sci-Fi?
+The business faces key operational challenges:
+
+- **Inventory Mismatch**
+Why do stores with higher inventory generate lower revenue?
+- **Revenue Leakage**
+How much demand is lost due to late returns and stock unavailability?
+- **Customer Concentration**
+Who are the high-value users driving consistent revenue?
+- **Content Strategy**
+Is revenue dependent on specific genres?
 
 ---
 
 ### 🎯 Objective
 
-To build a scalable analytics framework that:
+Build a scalable analytics framework to:
 
-- Tracks Rental Health (Total Revenue, AOV, and Active Base).
-- Identifies High-Value Tiers (Elite VIP vs. Occasional).
-- Optimizes Store Inventory (balancing supply vs. demand).
-- Detects Late Return Patterns to improve stock availability.
+- Track Business Health KPIs
+- Identify High-Value Customers
+- Optimize Inventory Allocation
+- Improve Operational Efficiency
+- Detect Revenue Leakage Drivers
 
 
 ---
@@ -48,10 +57,12 @@ To build a scalable analytics framework that:
 
 | Category         | KPIs                                   | Insight                                 |
 |----------------|----------------------------------------|------------------------------------------|
-| Business Health | Total Revenue, Total Rentals, AOV      | Overall financial scale.                 |
-| Customer Active | Customers, CLV, Loyalty Tiers          | User retention and value.                |
-| Product         | Revenue by Genre, Inventory Velocity   | Content demand vs. supply.               |
-| Operations      | Avg Rental Duration, Late Return Count | Asset turnover and efficiency.           |
+| Business Health | Total Revenue, Total Rentals, AOV, Active customers  | Overall financial scale.   |
+| Demand           | Rentals by Category, Rating           |    What do customers want?               |
+|Inventory	        |   Demand per Inventory, Revenue per Inventory	  |  Are we stocking efficiently?  |
+|Customer	         |   CLV, Segments, Spend	                         | Who drives revenue?            |
+|Store	            |   Revenue, Rentals, Efficiency                 | 	Where is execution failing?    |
+|Operations	       |    Rental Duration, Late Returns	             |  Where do we lose efficiency?    |
 
 
 ---
@@ -64,7 +75,7 @@ Source: [MySQL Sakila Sample Database](https://github.com/jOOQ/sakila)
 Scale:
 - **32,000+** rental & payment records
 - Across 16+ relational tables
-- Customers, Films, Inventory, Stores, Rentals
+- Entities: Customers, Films, Inventory, Stores, Rentals
 
 
 ---
@@ -93,7 +104,7 @@ select avg(amount) as avg_order_value from payment;
 
 ``` sql
 
--- Demand by Category
+-- Category Demand
 
 SELECT 
     c.name AS category,
@@ -110,7 +121,7 @@ GROUP BY c.name
 ORDER BY demand DESC;
 
 
--- Demand by rating
+-- Rating Demand
 
 SELECT 
     f.rating,
@@ -125,20 +136,20 @@ JOIN film f ON i.film_id = f.film_id
 GROUP BY f.rating
 ORDER BY demand DESC;
 
- -- What type of content is preferred (PG, R, etc.)
-
-> Demand is evenly distributed across categories, with no single genre dominating consumption.
-> Additionally, variation across content ratings indicates diverse audience preferences.
+> ✅ Insight
+Demand is widely distributed across categories
+However, revenue is concentrated, with top genres driving disproportionate value
 
 
 ```
 
 
-### Inventory Layer
+### Inventory Efficiency Layer
 
 ``` sql
 
--- 1. Title wise Demand vs Inventory Efficiency
+-- 1. Demand per Inventory
+
 SELECT 
     f.title,
     COUNT(r.rental_id) AS demand,
@@ -154,23 +165,18 @@ GROUP BY f.title
 -- ORDER BY demand_per_inventory DESC
 ORDER BY demand_per_inventory ASC
 LIMIT 10;
-;
-
--- Inventory utilization varies significantly across titles, with top-performing films achieving ~5 rentals per copy,
--- While lower-performing titles average around ~2, indicating both understocking of high-demand content and overstocking of low-demand titles.
 
 
-
-Metric → demand_per_inventory
-Comparison → top vs bottom
-Insight → imbalance
-Business meaning → under/overstock
+> ✅ Insight
+Top films → ~5 rentals per copy
+Bottom films → ~2 rentals per copy
+Indicates understocking of high-demand content and overstocking of low-demand content
 
 ```
 
 
 
-### Customer Layer 
+### Customer Intelligence Layer 
 
 ``` SQL
 
@@ -185,7 +191,7 @@ GROUP BY customer_id
 ORDER BY total_rentals DESC;
 
 
--- 2. Customer Segments
+-- 2. Customer Segmentation
 
 SELECT 
     CASE 
@@ -205,7 +211,7 @@ GROUP BY customer_segment;
 
 
 
--- 3. Revenue Contribution via customer 
+-- 3. Revenue Contribution per each customer 
 
 
 SELECT 
@@ -218,6 +224,13 @@ GROUP BY c.customer_id
 ORDER BY total_spent DESC;
 
 
+> ✅ Insight
+- Strong power-user base
+- High retention in mid-tier customers
+- Stable top spenders → predictable revenue
+
+
+
 ```
 
 
@@ -226,7 +239,7 @@ ORDER BY total_spent DESC;
 
 ``` sql
 
--- 1. Store wise Performance
+-- 1. Store Revenue
 
 SELECT 
     s.store_id,
@@ -243,7 +256,7 @@ GROUP BY s.store_id;
 
 
 
--- 2. Store Inventory vs Demand
+-- 2. Store Efficiency (Inventory vs Demand)
 
 SELECT 
     s.store_id,
@@ -258,10 +271,9 @@ JOIN inventory i ON s.store_id = i.store_id
 LEFT JOIN rental r ON i.inventory_id = r.inventory_id
 GROUP BY s.store_id;
 
--- Which store is:
-
--- Efficient (high ratio)
--- Inefficient (low ratio)
+> ✅ Insight
+- Store with more inventory ≠ higher revenue
+- Clear inventory allocation inefficiency
 
 
 
@@ -269,14 +281,14 @@ GROUP BY s.store_id;
 ```
 
 
-### Sesonality, Ternds over time, date 
+### Time & Operations
 
 
 ``` sql 
 
 -- 1. How does demand/revenue change over time?
 
--- demand over time 
+-- Demand Trend
 SELECT 
     DATE_FORMAT(r.rental_date, '%Y-%m') AS month,
     COUNT(*) AS demand
@@ -285,7 +297,7 @@ GROUP BY month
 ORDER BY month;
 
 
--- 2. rev over time 
+-- 2. rev Trend
 
 SELECT 
     DATE_FORMAT(p.payment_date, '%Y-%m') AS month,
@@ -312,12 +324,14 @@ ORDER BY month;
 
 
 ### ✨ Power BI Implementation
-DAX Measures Utilized:
 
-Average Rental Duration: AVG_Duration = AVERAGE(Rental[Duration])
+``` Powerbi
+-- DAX Measures
 
-Customer Tiering: 
-```dax
+1. Average Rental Duration: AVG_Duration = AVERAGE(Rental[Duration])
+
+2. Customer Tiering: 
+
 Loyalty_Tier = SWITCH(TRUE(),
 [Rental_Count] >= 40, "Elite VIP",
 [Rental_Count] >= 20, "Preferred",
@@ -326,65 +340,74 @@ Loyalty_Tier = SWITCH(TRUE(),
 Store Revenue Gap: Revenue_Gap = [Store 2 Revenue] - [Store 1 Revenue]
 
 
-
-
 ```
 
 ---
 
 
 
-
-
 ### 📈 Business Performance Snapshot
-Total Revenue: $67,416.51
-
-Active Customers: 599
-
-Avg Rental Duration: 4.99 Days
-
-Inventory Capacity: 4,581 Units across 1,000 Films
-
-
----
-
-### ⚡ Business Meaning (this is key)
-❗ No heavy concentration means:
-No single category drives the business
-Customers have diverse preferences
-
-
-
-
-
-
-
+- 💰 Revenue: **$67,416**
+- 👥 Customers: **599**
+- 📦 Inventory: **4,581 units**
+- 🎬 Films: **~1,000 titles**
+- ⏱ Avg Rental Duration: **~5 days**
 
 ---
 
 
 ### 📊 Key Insights
 
-### 👥 Customer Intelligence
-1. High Stability: The top 10 customers have a narrow spend range ($193–$211), indicating a very stable power-user base.
+## 👥 Customer
+- Stable high-value users
+- Strong mid-tier retention
+## 🎬 Product
+- Demand distributed
+- Revenue concentrated in top genres
+## ⚙️ Inventory
+- High variance in utilization (2x–5x)
+- Overstock + understock coexist
+## 🏬 Store
+- Inventory ≠ performance
+- Poor allocation strategy
+## ⏳ Operations
+- Late returns reduce availability
+- Impacts peak demand fulfillment
 
-2. Retention Success: The bulk of users are "Regulars" (11–19 rentals), showing high stickiness.
-
-### 🛍️ Product & Genre Performance
-
-1. Niche Dominance: Sports (21%) and Sci-Fi (19%) drive nearly half of all revenue.
-2. Underperformers: Travel and Music genres show significantly lower engagement, suggesting inventory should be shifted.
-
-### ⚙️ Operational Inefficiency
-
-1. The Store Paradox: Store 2 has more inventory but fewer customers than Store 1.
-2. Late Returns: High late return counts in specific genres (Sports) are likely causing "out-of-stock" issues during peak windows.
+--- 
 
 ### 💡 Business Recommendations
-- Inventory Rebalancing: Relocate underperforming inventory from Store 2 to Store 1 to meet higher customer foot traffic.
-- Late Return Mitigation: Introduce a "Loyalty Bonus" for early returns to increase Inventory Velocity and film availability.
-- Targeted Niche Expansion: Since Sports and Sci-Fi are the "hooks," bundle these with lower-performing genres to increase AOV.
-- Top-of-Funnel Focus: Launch a "First 3 Rentals Free" campaign to convert the "Casual" segment into the "Regular" tier.
+
+**1. Inventory Rebalancing**
+
+Shift stock from low-performing (~2 rentals/copy)
+to high-performing (~5 rentals/copy) titles
+
+→ Potential **2–2.5x utilization improvement**
+
+**2. Late Return Reduction**
+
+Introduce:
+
+- Early return incentives
+- Loyalty rewards
+
+→ Improves inventory availability
+
+**3. Genre Strategy**
+
+- Expand high-revenue genres (Sports, Sci-Fi)
+- Bundle with low-performing categories
+
+→ Increase AOV
+
+
+**4. Store Optimization**
+
+Reallocate inventory toward:
+
+- High-demand stores
+- High-footfall regions
 
 
 
@@ -397,25 +420,27 @@ Customers have diverse preferences
 Movie-Rental-Inventory-Analytics-SQL
 │
 ├── Data
-│   └── rental_records.csv
+|   ├── Introduction 
+│   └── rental_records
 │
-├── ER_Diagram
-│   └── Sakila_ERD.png
 │
 ├── SQL_Queries
-│   ├── 01_revenue_by_genre.sql
-│   ├── 02_customer_lifetime_value.sql
-│   ├── 03_rental_frequency.sql
-│   ├── 04_late_return_analysis.sql
-│   └── 05_revenue_by_store.sql
+│   ├── 01_Business Health
+│   ├── 02_Demand Analysis 
+│   ├── 03_Inventory Gap
+│   ├── 04_Customer_Behaviour
+│   └── 05_Store & Operations
+|
+├── ER_Diagram
+│   └── DVD_Store_ERD.png
 │
 ├── Visuals
-|   ├── Key Dataset Metrics
+|   ├── Metrics
 │   └── rental_dashboard.png
 │
-├── Advanced_SQL_Analysis
-│   ├── CTEs
-│   └── Window_Function
+├── Power BI Analysis
+│   ├── Modeling
+│   └── Dax Measures 
 │
 ├── README.md
 └── .gitignore
@@ -425,11 +450,11 @@ Movie-Rental-Inventory-Analytics-SQL
 
 ### ⚙️ Tech Stack
 
-| Tool      | Purpose ⭐                                               |
+| Tools      | Techniques ⭐                                               |
 |-----------|----------------------------------------------------------|
-| Excel     | ETL, Power Query, Data Cleaning, Transformation          |
-| SQL       | Deep analysis, Aggregations, calculations & segmentation |
-| Power BI  | Data modeling, DAX measures, dashboards, charts & visualization |
+| Advance Excel  | Pivot Tables, Formulas, Power Query, Cleaning, ETL         |
+| MySQL       | Joins, Aggregations, Window Function, Ctes |
+| Power BI  | Data modeling, Star Schema, DAX measures, dashboards, charts & visualization |
 
 ---
 
