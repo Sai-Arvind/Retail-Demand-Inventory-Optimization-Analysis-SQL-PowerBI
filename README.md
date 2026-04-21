@@ -1,11 +1,8 @@
 # Retail Store Movie Business Analysis
 
-- **Industry:** Rental & Subscription Retail (Netflix DVD Era Simulation)
+- **Industry:** Rental & Subscription Retail, This project simulates a **2005-era DVD Netflix** rental business
 
 - Demand, Inventory & Customer Intelligence via Product & Store insights
-- Demand is widely distributed across categories, with the top category contributing only ~7% and even the top 5 categories accounting for just ~35% of total demand, indicating no strong category dominance.
-
-
 
 
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/c8759eac-a1d2-4239-afee-1dc7f47237b2" />
@@ -14,11 +11,11 @@
 
 ### ⚡ Executive Summary
 
-This project simulates a **2005-era DVD Netflix rental business**, where:
+Demand is widely distributed across categories, with the top category contributing only ~7% and even the top 5 categories accounting for just ~35% of total demand, indicating no strong category dominance.
 
-📦 Inventory availability
-👥 Customer behavior
-⏳ Return patterns
+- 📦 Inventory availability
+- 👥 Customer behavior
+- ⏳ Return patterns
 
 directly influence **revenue, utilization, and operational efficiency**.
 
