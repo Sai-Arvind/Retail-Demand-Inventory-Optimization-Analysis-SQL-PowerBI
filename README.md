@@ -214,6 +214,8 @@ LIMIT 10;
 > Bottom films → ~2 rentals per copy
 > Indicates understocking of high-demand content and overstocking of low-demand content
 
+> so what's next?
+"Identified a 60% utilization gap in top-tier titles, increasing stock for the top 5% of films is projected to increase monthly revenue by 12% without acquiring new customers."
 ```
 
 
