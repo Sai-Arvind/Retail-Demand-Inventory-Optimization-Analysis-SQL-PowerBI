@@ -1,6 +1,7 @@
 # Retail Store Movie Business Analysis
 
-- **Industry:** Rental & Subscription, This project simulates a **Netflix 2005 DvD-era** & **Walmart DvD** rental business 
+- **Industry:** Rental & Subscription
+- **Simulation:** **Netflix** (2005 DVD Era) + **Walmart** DVD Rental Model rental business 
 
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/c8759eac-a1d2-4239-afee-1dc7f47237b2" />
 
@@ -8,10 +9,24 @@
 
 ### 📌 Project Overview
 
-- The analysis focuses on optimizing **Demand, Inventory, and Customer Intelligence** via **Product and Store-level insights**, directly influence **revenue, utilization, and operational efficiency**.
+This project analyzes a DVD rental business using the Sakila dataset, focusing on **Demand, Inventory Optimization, Customer Intelligence, and Store Performance.**
+
+The goal is to build a **scalable analytics framework** that improves:
+
+- Revenue growth
+- Inventory utilization
+- Customer targeting
+- Store-level efficiency
 
 ### ⚡ Executive Summary
-- Demand is widely distributed across categories, indicating no strong category dominance, with the top category contributing ~7% and even the top 5 categories accounting for just ~35% of total demand.
+
+- Demand is **highly fragmented** No single category dominates
+- Top category contributes only **~7% of demand**
+- Top 5 categories together contribute **~35%**
+- However, **revenue is concentrated**, indicating pricing/premium content impact
+
+> 👉 Key takeaway:
+- Demand ≠ Revenue: Business must optimize for profit, not just popularity
 
 ---
 
@@ -342,22 +357,30 @@ ORDER BY month;
 ---
 
 
-### ✨ Power BI Implementation
+# ✨ Power BI Implementation
 
 > DAX Measures
 
+
 ``` Powerbi
 
-1. Average Rental Duration: AVG_Duration = AVERAGE(Rental[Duration])
+----------------------------------------------------Avg Rental Duration
 
-2. Customer Tiering: 
+Average Rental Duration: AVG_Duration = AVERAGE(Rental[Duration])
+
+
+-----------------------------------------------------Customer Segmentation
+
+Customer Tiering: 
 
 Loyalty_Tier = SWITCH(TRUE(),
 [Rental_Count] >= 40, "Elite VIP",
 [Rental_Count] >= 20, "Preferred",
 "Occasional")
 
-3. Store Revenue Gap: Revenue_Gap = [Store 2 Revenue] - [Store 1 Revenue]
+-----------------------------------------------------Store Revenue Gap
+
+Store Revenue Gap: Revenue_Gap = [Store 2 Revenue] - [Store 1 Revenue]
 
 
 ```
