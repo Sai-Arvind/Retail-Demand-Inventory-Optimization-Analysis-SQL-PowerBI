@@ -319,6 +319,16 @@ Reducing the Late Return Rate from ~55% to ~30% will:
 *👉 This demonstrates that fixing operational friction has a direct and measurable financial impact*
 
 
+
+
+---
+
+### Limitations
+- Churn definition assumption (RFM-based)
+- No pricing elasticity modeling
+- No external market benchmark
+- Static simulation dataset (Sakila)
+  
 ---
 
 
