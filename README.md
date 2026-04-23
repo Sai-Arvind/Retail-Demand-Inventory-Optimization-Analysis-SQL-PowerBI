@@ -264,7 +264,7 @@ Store Revenue Gap: Revenue_Gap = [Store 2 Revenue] - [Store 1 Revenue]
 
 - 55% Late Return Rate
 - 73% Churn Rate
-- 100% customers experienced late returns
+- late returns affected nearly all active customers.
 
 *👉 The system is designed such that the average customer fails.*
 
