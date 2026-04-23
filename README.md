@@ -42,7 +42,7 @@ The business is experiencing **system-wide customer churn**
 
 Build a scalable analytics framework to:
 
-- Audit business performance using KPIs
+- Audit business performance
 - Diagnose root causes of operational inefficiency
 - Identify customer churn patterns
 - Provide data-driven business recommendations
