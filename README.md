@@ -1,75 +1,88 @@
-# DvD Rental Store: 360° Root Cause of Customer Churn & Operational Inefficiency Analytics
-
-- **Industry:** Rental & Subscription
-- **Simulation:** **Netflix** (2006 DVD Era) + **Walmart** DVD Rental Model rental business 
+# DvD Rental Store: 360° Root Cause of Customer Churn & Operational Inefficiency Analysis
 
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/c8759eac-a1d2-4239-afee-1dc7f47237b2" />
 
 ---
 
-### 📌 Project Overview
 
-> Descriptive to Predictive Analytics
-- Identified System-Wide Customer Churn in a DVD Rental Business.
-- A Data-Driven 360° Root Cause Analysis of Inventory, Operations, and Customer Churn
+## 📌 Project Overview
 
+This project analyzes a DVD rental business (Netflix 2006-era + Walmart-style retail model) to identify the root causes of declining performance.
 
-### ⚡ Executive Summary
+The analysis follows a full analytics lifecycle:
+**Descriptive → Diagnostic → Predictive**
 
+It uncovers a system-wide failure loop across:
+- Inventory (Supply)
+- Operations (Process)
+- Customers (Demand)
 
+The goal is to transform raw transactional data into actionable business insights and strategic recommendations.
 
 
 ---
+
 
 ### 🚩 Business Problem
 
-1. Due to Policy & system changes
-2. The business is experiencing system-wide customer churn driven by high operational friction (late return policies) and inefficient inventory allocation.
-> The below KPI's collectively reveal a failure loop where **inefficient inventory** leads to **poor customer experience**, high **late return penalty**, and ultimately the **churn of customers**.
+The business is experiencing **system-wide customer churn** driven by:
+
+- High operational friction (late return penalties)
+- Inefficient inventory allocation (dead stock)
+
+These issues create a **failure loop**:
+
+Inventory inefficiency → Poor customer experience → High penalties → Customer churn
 
 
-**1. Inventory Problem (Supply Side)**
-- Too many low-performing DVDs
-- Capital is stuck → can’t invest in better/new content
+## 🔍 Key Problems Identified
 
-👉 Result: Low asset efficiency
+#### 1. Inventory Problem (Supply Side)
+- Large volume of underperforming DVDs
+- Capital locked in low-demand titles
 
-**2. Operational Problem (Process Issue)**
-- ~55% late return rate
-- Rental policy (short duration) is unrealistic
+👉 Result: Poor asset utilization
 
-👉 Result: Customers are constantly penalized
+---
 
-**3. Customer Problem (Demand Side)**
-- Customers stop renting
-- Likely due to repeated bad experiences (late fees)
+#### 2. Operational Problem (Process)
+- ~55% Late Return Rate
+- Rental durations too short for customer behavior
 
-👉 Result: Revenue loss + declining loyalty
+👉 Result: Customers frequently penalized
 
+---
+
+#### 3. Customer Problem (Demand Side)
+- High customer inactivity across all segments
+- No significant difference in spend between active & inactive users
+
+👉 Result: System-wide churn driven by poor experience (not customer value)
 
 
 ---
 
-### 🎯 Objective
+## 🎯 Objective
 
 Build a scalable analytics framework to:
 
-- Auditing (Descriptive)
-- 
+- Audit business performance using KPIs
+- Diagnose root causes of inefficiency
+- Identify customer churn patterns
+- Provide data-driven business recommendations
 
 
 ---
 
 
-### Eco system 
+## Business Eco-system 
 
 <img width="1400" height="1000" alt="dvd-Code_Generated_Image" src="https://github.com/user-attachments/assets/1cb14764-77eb-4784-a776-f10923f5c213" />
 
 
 
 
-
-### 📊 Key Metrics & KPI Framework ⭐
+## 📊 Key Metrics & KPI Framework ⭐
 
 To evaluate the health of the DVD rental business, the following Key Performance Indicators (KPIs) were defined across Inventory, Operations, and Customer behavior.
 
@@ -90,7 +103,23 @@ To evaluate the health of the DVD rental business, the following Key Performance
 ---
 
 
-### 🗄️ Dataset
+
+## 🔗 Key Insight
+
+Customer segmentation revealed that:
+
+- Majority of users are inactive
+- Average spend is nearly identical across segments
+
+👉 This confirms that churn is **system-wide**, not limited to low-value users.
+
+The primary driver is **operational friction (late return penalties)** rather than customer behavior differences.
+
+
+---
+
+
+## 🗄️ Dataset
 
 Source: [MySQL Sakila Sample Database](https://github.com/jOOQ/sakila) 
 
@@ -106,29 +135,37 @@ Scale:
 ---
 
 
-### ⚙️ SQL Deep-Dive Analysis
+## ⚙️ SQL Deep-Dive Analysis
+ 
+``` sql
 
-### Current Business Health 
+
+-------------------------------------------------------- Auditing
 
 > Revenue, Rentals, AOV, Active Customers
 
-``` sql
 
--- Revenue
-select sum(amount) as revenue from payment;
+-- 1. Revenue
+select sum(amount) as revenue
+from payment;
 
--- Rentals
-select count(*) as total_rentals from rental;
+-- 2. Rentals
+select count(*) as total_rentals
+from rental;
 
--- Active Customers
-select count(distinct customer_id) as active_customers from rental;
+-- 3. Active Customers
+select count(distinct customer_id) as active_customers
+from rental;
 
--- AOV
-select avg(amount) as avg_order_value from payment;
+-- 4. AOV
+select avg(amount) as avg_order_value
+from payment;
 
 
 -------------------------------------------------------- Inventory KPIs
-   
+
+> Inventory Turnover, Asset ROI, Revenue per Title, Demand per Copy
+
 -- 1. Inventory Turnover
 SELECT 
     f.title,
@@ -182,6 +219,8 @@ ORDER BY demand_per_copy DESC;
 
 
 -------------------------------------------------------- Operational KPIs
+
+> Late Return Rate (LRR), Avg Rental Delay, Revenue per Rental
 -- 5. Late Return Rate (LRR)
 SELECT 
     COUNT(*) AS total_returns,
@@ -239,6 +278,8 @@ WHERE r.return_date IS NOT NULL;
 
 
 -------------------------------------------------------- 👥 3. Customer KPIs (RFM + Churn)
+
+> Recency, Frequency,  Monetary (CLV Proxy), Recency Segmentation Query
 
 -- 9. Recency
 
@@ -362,18 +403,14 @@ GROUP BY customer_segment;
 ```
 
 
-
-
-
 ---
 
 
-# ✨ Power BI Implementation
-
-> DAX Measures
+## ✨ Power BI Implementation
 
 
 ``` Powerbi
+> DAX Measures : Avg Rental Duration, Customer Segmentation, Store Revenue Gap
 
 ----------------------------------------------------Avg Rental Duration
 
@@ -398,14 +435,24 @@ Store Revenue Gap: Revenue_Gap = [Store 2 Revenue] - [Store 1 Revenue]
 
 ---
 
+## 📊 Key Insights
 
+- 💰 Total Revenue: $67,416  
+- 👥 Customers: 599  
+- 📦 Inventory: 4,581 units  
+- 🎬 Films: ~1,000 titles  
+- ⏱ Avg Rental Duration: ~5 days  
 
-### 📊 Key Insights
-- 💰 Revenue: **$67,416**
-- 👥 Customers: **599**
-- 📦 Inventory: **4,581 units**
-- 🎬 Films: **~1,000 titles**
-- ⏱ Avg Rental Duration: **~5 days**
+---
+
+### 🔥 Critical Finding
+
+- ~55% of rentals are returned late  
+👉 Indicates a systemic policy failure
+
+- Customer inactivity is widespread  
+👉 Not a segmentation issue, but a system issue
+
 
 ---
 
@@ -417,70 +464,61 @@ Store Revenue Gap: Revenue_Gap = [Store 2 Revenue] - [Store 1 Revenue]
 ---
 
 
-### 💡 Prescriptive Analysis (Business Recommendations)
+## 💡 Prescriptive Analysis (Recommendations)
 
+### 1. Fix Rental Policy (Top Priority)
+- Increase rental duration for high-late categories
+- Reduce penalty-driven friction
 
-Fix Rental Policy (Top Priority)
-> Reduce late return friction
-> Adjust rental duration
-Optimize Inventory
-> Remove dead stock
-> Improve availability
-Then Customer Actions
-> Retarget ALL inactive users
+---
+
+### 2. Optimize Inventory
+- Remove underperforming titles (low ROI)
+- Reinvest in high-demand content
+
+---
+
+### 3. Customer Recovery Strategy
+- Target inactive users with re-engagement offers
+- Focus on improving experience rather than pricing
   
 
 --- 
 
 
 ```
-📁 Repository Structure
-Movie-Rental-Inventory-Analytics-SQL
+## 📁 Repository Structure
+
+dvd-rental-churn-analysis/
 │
-├── Data
-|   ├── Introduction 
-│   └── 
-│
-│
-├── SQL_Queries
-│   ├── 01_
-│   ├── 02
-│   ├── 03_
-│   ├── 04_
-│   └── 05_
-|
-├── ER_Diagram
-│   └── DVD_Store_ERD.png
-│
-├── Visuals
-|   ├── 
-│
-├── Power BI Analysis
-│   ├── 
-│
+├── Data/
+├── SQL_Queries/
+├── ER_Diagram/
+├── Visuals/
+├── PowerBI/
 ├── README.md
 └── .gitignore
 
 ```
 ---
 
-### ⚙️ Tech Stack
+## ⚙️ Tech Stack
 
-| Tools      | Techniques ⭐                                               |
-|-----------|----------------------------------------------------------|
-| Advance Excel  | Pivot Tables, Formulas, Power Query, Cleaning, ETL         |
-| MySQL       | Joins, Aggregations, Window Function, Ctes                    |
-| Power BI  | Data modeling, Star Schema, DAX measures, dashboards, charts & visualization |
+| Tool        | Techniques |
+|------------|-----------|
+| Excel      | Data Cleaning, Pivot Tables |
+| MySQL      | Joins, Aggregations, CTEs |
+| Power BI   | Data Modeling, DAX, Dashboards |
 
 ---
 
-### 👤 About Me
+## 👤 About Me
 
-**A Sai Arvind**  
+**Sai Arvind**
 
 📧 Email: saiarvind5081@gmail.com  
 🔗 LinkedIn: https://www.linkedin.com/in/saiarvindofficial/  
-💻 GitHub: https://github.com/Sai-Arvind  
+💻 GitHub: https://github.com/Sai-Arvind    
 
 ⭐ If you found this project useful, consider giving it a star.
 
