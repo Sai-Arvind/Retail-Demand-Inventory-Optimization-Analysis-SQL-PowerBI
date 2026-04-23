@@ -1,7 +1,7 @@
 # Retail Store Movie Business Analysis
 
 - **Industry:** Rental & Subscription
-- **Simulation:** **Netflix** (2005 DVD Era) + **Walmart** DVD Rental Model rental business 
+- **Simulation:** **Netflix** (2006 DVD Era) + **Walmart** DVD Rental Model rental business 
 
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/c8759eac-a1d2-4239-afee-1dc7f47237b2" />
 
@@ -9,60 +9,53 @@
 
 ### 📌 Project Overview
 
-This project analyzes a DVD rental business using the Sakila dataset, focusing on **Demand, Inventory Optimization, Customer Intelligence, and Store Performance.**
+I designed a KPI framework across 3 core business dimensions focusing on  360° approach **(Inventory, Operations, Customer)**
 
-The goal is to build a **scalable analytics framework** that improves:
-
-- Revenue growth
-- Inventory utilization
-- Customer targeting
-- Store-level efficiency
 
 ### ⚡ Executive Summary
 
-- Demand is **highly fragmented** No single category dominates
-- Top category contributes only **~7% of demand**
-- Top 5 categories together contribute **~35%**
-- However, **revenue is concentrated**, indicating pricing/premium content impact
 
-> 👉 Key takeaway:
-- Demand ≠ Revenue: Business must optimize for profit, not just popularity
+
 
 ---
 
 ### 🚩 Business Problem
 
-### Business Performance
-
-- Are we growing or declining?
-- Are customers increasing?
-- Is revenue efficient per transaction?
-
-### What Customers Actually Want (Demand)
-
-- No clarity on which genres/content drive demand
-- Risk of investing in the wrong content
-
-### 📦 Inventory Misallocation (Overstock vs Understock)
-
-- Some movies sit idle
-- Some are always unavailable
-- Capital is wasted in inventory
-
-### 👥 Who Actually Drives Revenue?
-
-- All customers treated equally
-- No targeting or retention strategy
-
-### 🏬 Store-Level Inefficiency (Execution Gap)
-
-- Some stores underperform
-- Inventory not aligned with local demand
+> Due to Policy & system changes
+> The business is experiencing system-wide customer churn driven by high operational friction (late return policies) and inefficient inventory allocation.
+> Bad Inventory ➝ Leads to Poor Experience ➝ Causes Late Fees ➝ Creates Friction ➝ Drives Customer Churn
 
 
-### 📈 No Time-Based Strategy
+KPI → Business Problem Mapping
 
-- Business doesn’t understand seasonality or trends
+| Business Problem                  | Supporting KPIs                                      |
+|----------------------------------|------------------------------------------------------|
+| Inventory Inefficiency           | Inventory Turnover, Asset ROI, Revenue per Title     |
+| Operational Friction (Late Fees) | Late Return Rate, Avg Rental Delay                   |
+| Customer Churn                   | Recency, Frequency, Monetary, Churn Rate             |
+
+
+**1. Inventory Problem (Supply Side)**
+- Too many low-performing DVDs
+- Capital is stuck → can’t invest in better/new content
+
+👉 Result: Low asset efficiency
+
+**2. Operational Problem (Process Issue)**
+- ~55% late return rate
+- Rental policy (short duration) is unrealistic
+
+👉 Result: Customers are constantly penalized
+
+**3. Customer Problem (Demand Side)**
+- Customers stop renting
+- Likely due to repeated bad experiences (late fees)
+
+👉 Result: Revenue loss + declining loyalty
+
+
+
+> These KPIs collectively reveal a failure loop where inefficient inventory leads to poor customer experience, high late return rates, and ultimately the churn of customers.
 
 
 
@@ -72,25 +65,37 @@ The goal is to build a **scalable analytics framework** that improves:
 
 Build a scalable analytics framework to:
 
-- Track Business Health KPIs
-- Identify High-Value Categories 
-- Optimize Inventory Allocation
-- Understand Customer Targeting
-- Provide Store wise seasonality
+- Auditing (Descriptive)
+- 
 
 
 ---
 
-### 📊 Primary KPI Framework ⭐
 
-| Category         | KPIs                                   | Insight                                |
-|------------------|-----------------------------|---------------------------------------------------|
-| Business Health   |   Total Revenue, Total Rentals, AOV, Active customers  |  Overall financial scale         |
-| Demand            |   Rentals by Category, Top Rating                      |  What do customers want          |
-| Inventory	        |   Velocity, Revenue                                    |  Are we stocking efficiently?    |
-| Customer	        |   CLV, Segmentation                                    |  Who drives revenue?             |
-| Store	            |   Revenue, Rentals, Efficiency %                       |  Where is execution failing?     |
-| Operations	    |   Rental Duration                                      |  Where do we lose efficiency?    |
+### Eco system 
+
+<img width="1400" height="1000" alt="dvd-Code_Generated_Image" src="https://github.com/user-attachments/assets/1cb14764-77eb-4784-a776-f10923f5c213" />
+
+
+
+
+
+### 📊 Key Metrics & KPI Framework ⭐
+
+To evaluate the health of the DVD rental business, the following Key Performance Indicators (KPIs) were defined across Inventory, Operations, and Customer behavior.
+
+| Category   | KPI                     | Definition                                      | Business Purpose                                  | Problem Signal                          |
+|------------|--------------------------|--------------------------------------------------|--------------------------------------------------|------------------------------------------|
+| Inventory  | Inventory Turnover       | Total Rentals per Film / Total Copies           | Measures how efficiently inventory is utilized    | Low turnover → Dead stock                |
+| Inventory  | Asset ROI                | Total Revenue per Film / Replacement Cost       | Evaluates profitability of each title             | ROI < 1 → Loss-making inventory          |
+| Inventory  | Revenue per Title        | Total revenue generated per film                | Identifies high vs low performers                 | Low revenue → Poor demand                |
+| Operations | Late Return Rate (LRR)   | Late Returns / Total Rentals                    | Measures customer friction due to policies        | High (>40%) → Policy failure             |
+| Operations | Avg Rental Delay         | Avg(Return Date - Allowed Date)                 | Measures severity of delays                       | High delay → Unrealistic duration        |
+| Operations | Revenue per Rental       | Avg payment per rental                          | Tracks pricing effectiveness                      | Low → Pricing inefficiency               |
+| Customer   | Recency                  | Days since last rental                          | Measures customer activity                        | High → Churn risk                        |
+| Customer   | Frequency                | Total rentals per customer                      | Measures engagement level                         | Low → Weak retention                     |
+| Customer   | Monetary (CLV Proxy)     | Total spend per customer                        | Identifies high-value customers                   | High value + inactive → Revenue risk     |
+| Customer   | Churn Rate               | % of inactive customers (>30 days)              | Tracks customer loss                              | High churn → Growth problem              |
 
 
 ---
@@ -103,7 +108,7 @@ Source: [MySQL Sakila Sample Database](https://github.com/jOOQ/sakila)
 Scale:
 - **32,000+** rental & payment records
 - Across **16+ relational tables**
-- Entities: Customers, Films, Inventory, Stores, payments, Rentals
+- Entities: Content Stragegy, Revenue Engine, Store Performance, market Segmentation
 
 ### ER Diagram
 
@@ -132,102 +137,139 @@ select count(distinct customer_id) as active_customers from rental;
 -- AOV
 select avg(amount) as avg_order_value from payment;
 
-✅ Insight
-> Establishes a single source of truth
-> Enables executive decision-making
-> Detects growth vs stagnation early
 
-```
-### Demand Layer
-
-> Demand Analysis (Category + Rating)
-
-``` sql
-
--- Category Demand
-
-SELECT 
-    c.name AS category,
-    COUNT(r.rental_id) AS demand,
-    ROUND(
-        100 * COUNT(r.rental_id) / SUM(COUNT(r.rental_id)) OVER (), 
-        2
-    ) AS demand_pct
-FROM rental r
-JOIN inventory i ON r.inventory_id = i.inventory_id
-JOIN film_category fc ON i.film_id = fc.film_id
-JOIN category c ON fc.category_id = c.category_id
-GROUP BY c.name
-ORDER BY demand DESC;
-
-
--- Rating Demand
-
-SELECT 
-    f.rating,
-    COUNT(r.rental_id) AS demand,
-    ROUND(
-        100 * COUNT(r.rental_id) / SUM(COUNT(r.rental_id)) OVER (), 
-        2
-    ) AS demand_pct
-FROM rental r
-JOIN inventory i ON r.inventory_id = i.inventory_id
-JOIN film f ON i.film_id = f.film_id
-GROUP BY f.rating
-ORDER BY demand DESC;
-
-✅ Insight
-> Demand is spread out (no dominance)
-> Revenue is concentrated (few genres drive money)
-
-
-```
-
-
-### Inventory Efficiency Layer
-
-> Demand per Inventory KPI (Demand per Copy = Total Rentals ÷ Number of Copies)
-
-``` sql
-
--- 1. Demand per Inventory
-
+-------------------------------------------------------- Inventory KPIs
+   
+-- 1. Inventory Turnover
 SELECT 
     f.title,
-    COUNT(r.rental_id) AS demand,
-    COUNT(DISTINCT i.inventory_id) AS inventory,
-    ROUND(
-        COUNT(r.rental_id) / COUNT(DISTINCT i.inventory_id), 
-        2
-    ) AS demand_per_inventory
+    COUNT(r.rental_id) AS total_rentals,
+    COUNT(DISTINCT i.inventory_id) AS total_copies,
+    ROUND(COUNT(r.rental_id) / COUNT(DISTINCT i.inventory_id), 2) AS inventory_turnover
 FROM film f
 JOIN inventory i ON f.film_id = i.film_id
 LEFT JOIN rental r ON i.inventory_id = r.inventory_id
 GROUP BY f.title
--- ORDER BY demand_per_inventory DESC
-ORDER BY demand_per_inventory ASC
-LIMIT 10;
-
-
-✅ Insight
-> Top films → ~5 rentals per copy
-> Bottom films → ~2 rentals per copy
-> Indicates understocking of high-demand content and overstocking of low-demand content
-
-> so what's next?
-"Identified a 60% utilization gap in top-tier titles, increasing stock for the top 5% of films is projected to increase monthly revenue by 12% without acquiring new customers."
-```
+ORDER BY inventory_turnover DESC;
 
 
 
-### Customer Intelligence Layer 
 
-> Customer Segmentation + CLV Analysis + % 
+-- 2. Asset ROI
+SELECT 
+    f.title,
+    f.replacement_cost,
+    SUM(p.amount) AS total_revenue,
+    ROUND(SUM(p.amount) / f.replacement_cost, 2) AS asset_roi
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+LEFT JOIN payment p ON r.rental_id = p.rental_id
+GROUP BY f.title, f.replacement_cost
+ORDER BY asset_roi DESC;
+    
+-- 3. Revenue per Title
+SELECT 
+    f.title,
+    SUM(p.amount) AS total_revenue
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+JOIN payment p ON r.rental_id = p.rental_id
+GROUP BY f.title
+ORDER BY total_revenue DESC;
 
-``` SQL
+-- 4. Demand per Copy
+SELECT 
+    f.title,
+    COUNT(r.rental_id) AS total_rentals,
+    COUNT(DISTINCT i.inventory_id) AS copies,
+    ROUND(COUNT(r.rental_id) / COUNT(DISTINCT i.inventory_id), 2) AS demand_per_copy
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+GROUP BY f.title
+ORDER BY demand_per_copy DESC;
 
--- 1. Customer Activity
 
+-------------------------------------------------------- Operational KPIs
+-- 5. Late Return Rate (LRR)
+SELECT 
+    COUNT(*) AS total_returns,
+    SUM(
+        CASE 
+            WHEN r.return_date > DATE_ADD(r.rental_date, INTERVAL f.rental_duration DAY)
+            THEN 1 ELSE 0 
+        END
+    ) AS late_returns,
+    ROUND(
+        SUM(
+            CASE 
+                WHEN r.return_date > DATE_ADD(r.rental_date, INTERVAL f.rental_duration DAY)
+                THEN 1 ELSE 0 
+            END
+        ) * 100.0 / COUNT(*), 2
+    ) AS late_return_rate_pct
+FROM rental r
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+WHERE r.return_date IS NOT NULL;
+
+
+
+-- 6. Avg Rental Delay
+SELECT 
+    ROUND(AVG(
+        DATEDIFF(
+            r.return_date,
+            DATE_ADD(r.rental_date, INTERVAL f.rental_duration DAY)
+        )
+    ), 2) AS avg_delay_days
+FROM rental r
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+WHERE r.return_date IS NOT NULL
+AND r.return_date > DATE_ADD(r.rental_date, INTERVAL f.rental_duration DAY);
+
+
+-- 7. Revenue per Rental
+SELECT 
+    ROUND(AVG(p.amount), 2) AS avg_revenue_per_rental
+FROM payment p;
+
+-- 8. Rental Duration Utilization
+SELECT 
+    ROUND(AVG(
+        DATEDIFF(r.return_date, r.rental_date)
+    ), 2) AS avg_actual_days,
+    ROUND(AVG(f.rental_duration), 2) AS avg_allowed_days
+FROM rental r
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+WHERE r.return_date IS NOT NULL;
+
+
+-------------------------------------------------------- 👥 3. Customer KPIs (RFM + Churn)
+
+-- 9. Recency
+
+SELECT 
+    c.customer_id,
+    SUM(p.amount) AS total_spent,
+    DATEDIFF(
+        (SELECT MAX(payment_date) FROM payment),
+        MAX(p.payment_date)
+    ) AS recency_days
+FROM customer c
+JOIN payment p 
+    ON c.customer_id = p.customer_id
+GROUP BY c.customer_id
+ORDER BY recency_days DESC;
+
+-- SELECT MAX(payment_date) FROM payment;
+
+
+-- 10. Frequency
 SELECT 
     customer_id,
     COUNT(rental_id) AS total_rentals
@@ -236,118 +278,96 @@ GROUP BY customer_id
 ORDER BY total_rentals DESC;
 
 
--- 2. Customer Segmentation
-
+-- 11. Monetary (CLV Proxy)
 SELECT 
-    CASE 
-        WHEN rental_count >= 30 THEN 'High Value'
-        WHEN rental_count BETWEEN 15 AND 29 THEN 'Medium Value'
-        ELSE 'Low Value'
-    END AS customer_segment,
-    COUNT(*) AS customer_count
-FROM (
-    SELECT 
-        customer_id,
-        COUNT(rental_id) AS rental_count
-    FROM rental
-    GROUP BY customer_id
-) t
-GROUP BY customer_segment;
-
-
-
--- 3. Revenue Contribution per each customer 
-
-
-SELECT 
-    c.customer_id,
-    SUM(p.amount) AS total_spent
-FROM customer c
-JOIN rental r ON c.customer_id = r.customer_id
-JOIN payment p ON r.rental_id = p.rental_id
-GROUP BY c.customer_id
+    customer_id,
+    SUM(amount) AS total_spent
+FROM payment
+GROUP BY customer_id
 ORDER BY total_spent DESC;
 
 
-✅ Insight
-> Strong power-user base
-> High retention in mid-tier customers
-> Stable top spenders → predictable revenue
-
-
-
-```
-
-
-### STORE LAYER
-
-> Store Revenue + Efficiency Metrics
-
-``` sql
-
--- 1. Store wise revenue and rentals
+-- 12. Churn (Inactive Customers)
+SET @max_date = (SELECT MAX(payment_date) FROM payment);
 
 SELECT 
-    s.store_id,
-    COUNT(r.rental_id) AS total_rentals,
-    SUM(p.amount) AS revenue
-FROM store s
-JOIN staff st ON s.store_id = st.store_id
-JOIN rental r ON st.staff_id = r.staff_id
-JOIN payment p ON r.rental_id = p.rental_id
-GROUP BY s.store_id;
-
-
--- 2. Store Efficiency (Inventory vs Demand)
-
-SELECT 
-    s.store_id,
-    COUNT(r.rental_id) AS demand,
-    COUNT(DISTINCT i.inventory_id) AS inventory,
-    ROUND(
-        COUNT(r.rental_id) / COUNT(DISTINCT i.inventory_id), 
-        2
-    ) AS demand_per_inventory
-FROM store s
-JOIN inventory i ON s.store_id = i.store_id
-LEFT JOIN rental r ON i.inventory_id = r.inventory_id
-GROUP BY s.store_id;
-
-✅ Insight
-> Store with more inventory ≠ higher revenue
-> Demand allocation is inefficient
+    c.customer_id,
+    MAX(p.payment_date) AS last_activity,
+    DATEDIFF(@max_date, MAX(p.payment_date)) AS days_inactive
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id
+HAVING days_inactive > 30
+ORDER BY days_inactive DESC;
 
 
 
 
-```
-
-
-### Time & Operations
-
-> Monthly Demand & Revenue Trends
-
-``` sql 
-
--- 1. How does demand/revenue change over time?
-
--- Demand Trend
-SELECT 
-    DATE_FORMAT(r.rental_date, '%Y-%m') AS month,
-    COUNT(*) AS demand
-FROM rental r
-GROUP BY month
-ORDER BY month;
-
-
--- 2. rev Trend
+-- 13. Recency Segmentation Query 
+WITH customer_recency AS (
+    SELECT 
+        c.customer_id,
+        SUM(p.amount) AS total_spent,
+        DATEDIFF(
+            (SELECT MAX(payment_date) FROM payment),
+            MAX(p.payment_date)
+        ) AS recency_days
+    FROM customer c
+    JOIN payment p 
+        ON c.customer_id = p.customer_id
+    GROUP BY c.customer_id
+)
 
 SELECT 
-    DATE_FORMAT(p.payment_date, '%Y-%m') AS month,
-    SUM(p.amount) AS revenue
-FROM payment p
-GROUP BY month
-ORDER BY month;
+    customer_id,
+    total_spent,
+    recency_days,
+    
+    CASE 
+        WHEN recency_days <= 160 THEN 'Active'
+        WHEN recency_days BETWEEN 161 AND 170 THEN 'At Risk'
+        ELSE 'Inactive'
+    END AS customer_segment
+
+FROM customer_recency
+ORDER BY recency_days DESC;
+
+
+
+-- 13. fix cte
+SELECT 
+    customer_segment,
+    COUNT(*) AS customers,
+    ROUND(AVG(total_spent), 2) AS avg_spent
+FROM (
+   WITH customer_recency AS (
+    SELECT 
+        c.customer_id,
+        SUM(p.amount) AS total_spent,
+        DATEDIFF(
+            (SELECT MAX(payment_date) FROM payment),
+            MAX(p.payment_date)
+        ) AS recency_days
+    FROM customer c
+    JOIN payment p 
+        ON c.customer_id = p.customer_id
+    GROUP BY c.customer_id
+)
+
+SELECT 
+    customer_id,
+    total_spent,
+    recency_days,
+    
+    CASE 
+        WHEN recency_days <= 160 THEN 'Active'
+        WHEN recency_days BETWEEN 161 AND 170 THEN 'At Risk'
+        ELSE 'Inactive'
+    END AS customer_segment
+
+FROM customer_recency
+) t
+GROUP BY customer_segment;
 
 
 ```
@@ -408,37 +428,17 @@ Store Revenue Gap: Revenue_Gap = [Store 2 Revenue] - [Store 1 Revenue]
 ---
 
 
-### 💡 Business Recommendations
+### 💡 Prescriptive Analysis (Business Recommendations)
 
 
-### 🎬 Product 
-- Avoids misleading demand signals
-- Helps prioritize: High-revenue genres over just high-demand ones
-
-
-### ⚙️ Inventory
-Rebalance inventory:
-- Increase copies of high-performing films
-- Reduce slow-moving stock
-
-
-### 👥 Customer
-- 🎯 Targeted marketing
-- 💰 Loyalty programs
-- 📈 Revenue predictability
-
-### 🏬 Store
-- Inventory ≠ performance
-- Poor allocation strategy
-
-### Time Based 
-- Seasonal stocking strategy
-- Marketing campaign timing
-- Demand forecasting
-
-### ⏳ Operations
-- Late returns reduce availability
-- Impacts peak demand fulfillment
+Fix Rental Policy (Top Priority)
+> Reduce late return friction
+> Adjust rental duration
+Optimize Inventory
+> Remove dead stock
+> Improve availability
+Then Customer Actions
+> Retarget ALL inactive users
   
 
 --- 
@@ -450,26 +450,24 @@ Movie-Rental-Inventory-Analytics-SQL
 │
 ├── Data
 |   ├── Introduction 
-│   └── rental_records
+│   └── 
 │
 │
 ├── SQL_Queries
-│   ├── 01_Business Health
-│   ├── 02_Demand Analysis 
-│   ├── 03_Inventory Gap
-│   ├── 04_Customer_Behaviour
-│   └── 05_Store & Operations
+│   ├── 01_
+│   ├── 02
+│   ├── 03_
+│   ├── 04_
+│   └── 05_
 |
 ├── ER_Diagram
 │   └── DVD_Store_ERD.png
 │
 ├── Visuals
-|   ├── Metrics
-│   └── rental_dashboard.png
+|   ├── 
 │
 ├── Power BI Analysis
-│   ├── Modeling
-│   └── Dax Measures 
+│   ├── 
 │
 ├── README.md
 └── .gitignore
