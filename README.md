@@ -9,7 +9,8 @@
 
 ### 📌 Project Overview
 
-I designed a KPI framework across 3 core business dimensions focusing on  360° approach **(Inventory, Operations, Customer)**
+> Identifying System-Wide Customer Churn in a DVD Rental Business (Descriptive → Predictive)
+> A Data-Driven 360° Root Cause Analysis of Inventory, Operations, and Customer Churn
 
 
 ### ⚡ Executive Summary
