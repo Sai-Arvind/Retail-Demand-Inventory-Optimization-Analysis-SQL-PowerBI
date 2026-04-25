@@ -1,4 +1,4 @@
-# DvD Rental Store: 360° Customer Churn Root Cause Analysis
+# DvD Rental Store: 360° Customer Churn Root Cause Analysis & Operational Insights
 
 <img width="1024" height="576" alt="image" src="https://github.com/user-attachments/assets/1a5b1185-363f-4dd4-9fea-96e7c9fd5b5d" />
 
